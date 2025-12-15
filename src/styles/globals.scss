@@ -5,6 +5,8 @@
   max-width: rem(1140);
   margin: 0 auto;
   height: rem(630);
+  overflow: hidden;
+  position: relative;
   
   // Адаптивні стилі для пропорційного зменшення
   @include large {
@@ -23,6 +25,16 @@
   @include x-small {
     height: rem(290);
     max-width: 100%;
+  }
+  
+  // Приховуємо повторювані тайли по боках
+  .gm-style {
+    overflow: hidden !important;
+  }
+  
+  // Обмежуємо область видимості карти
+  > div {
+    overflow: hidden !important;
   }
 }
 
