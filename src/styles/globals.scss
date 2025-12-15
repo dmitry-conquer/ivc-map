@@ -1,0 +1,40 @@
+@use "helpers" as *;
+
+#map {
+  width: 100%;
+  max-width: rem(1140);
+  margin: 0 auto;
+  height: rem(630);
+  
+  // Адаптивні стилі для пропорційного зменшення
+  @include large {
+    max-width: 100%;
+    height: rem(550);
+  }
+  
+  @include medium {
+    height: rem(480);
+  }
+  
+  @include small {
+    height: rem(400);
+  }
+  
+  @include x-small {
+    height: rem(290);
+    max-width: 100%;
+  }
+}
+
+// Приховуємо інформацію про Google внизу карти
+.gm-style-cc,
+.gm-style-cc div,
+a[href*="google"],
+a[href*="maps"],
+.gm-style-mtc,
+.gm-bundled-control .gm-style-cc,
+.gm-style-cc a {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
