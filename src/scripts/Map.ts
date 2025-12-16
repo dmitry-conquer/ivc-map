@@ -124,7 +124,7 @@ export class GoogleMap {
 
       const marker = new AdvancedMarkerElement({
         map: this.map,
-        position: position,
+        position: { lat: parseFloat(position.lat.toString()), lng: parseFloat(position.lng.toString()) },
         content: svgMarker,
       });
 

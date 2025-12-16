@@ -113,12 +113,14 @@
         font-size: rem(22);
         font-weight: 600;
         line-height: 1.27;
+        margin-bottom: 0;
       }
       p {
         color: #000;
         font-size: rem(16);
         line-height: 1.25;
         white-space: nowrap;
+        margin-bottom: 0;
       }
     }
 
@@ -138,6 +140,7 @@
         display: flex;
         align-items: center;
         column-gap: fluid(10, 19);
+        margin-bottom: 0 !important;
 
         &::before {
           content: "";

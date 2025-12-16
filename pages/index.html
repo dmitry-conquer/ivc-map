@@ -32,6 +32,27 @@
         </section>
       </main>
     </div>
+
+    <script>
+      const mapData = {
+        apiKey: "AIzaSyCYon71vBnNK-0ghe9mXGgAmnp_V6rsqzE",
+        mapId: "dd2ae071ffad46372ed83dfa",
+        coveredAreas: ["USA", "CAN", "GBR", "DEU", "CHN"],
+        markers: [
+          {
+            position: { lat: "40.7128", lng: "-74.006" },
+            data: [
+              {
+                title: "IVC WOD",
+                areas: ["Greenville, SC", "United States"],
+                services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
+              },
+            ],
+          },
+        ],
+      };
+    </script>
+
     {{>modal}}
     <script>
       const mapData = {
