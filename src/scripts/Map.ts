@@ -1,4 +1,5 @@
 import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
+import MicroModal from "micromodal";
 
 type MapOptions = {
   apiKey: string;
@@ -43,7 +44,7 @@ export class GoogleMap {
     } else if (width >= 576 && width < 992) {
       mapZoom = 1.7;
     } else if (width >= 992 && width < 1140) {
-      mapZoom = 2;
+      mapZoom = 2.1;
     } else if (width >= 1140 && width < 1440) {
       mapZoom = 2.1;
     } else {
@@ -62,13 +63,19 @@ export class GoogleMap {
         zoom: mapZoom,
         mapId: this.options.mapId,
         disableDefaultUI: true,
-        zoomControl: false,
         scrollwheel: false,
         disableDoubleClickZoom: true,
         gestureHandling: "none",
-        minZoom: mapZoom,
-        maxZoom: mapZoom,
         draggable: false,
+        restriction: {
+          latLngBounds: {
+            north: 85,
+            south: -85,
+            east: 180,
+            west: -180,
+          },
+          strictBounds: false,
+        },
       });
 
       this.dataLayer = new google.maps.Data();
@@ -82,56 +89,10 @@ export class GoogleMap {
         strokeOpacity: 0,
       });
 
-      this.map.addListener("zoom_changed", () => {
-        if (this.map) {
-          const mapZoom = this.getZoom();
-          const currentZoom = this.map.getZoom();
-          if (currentZoom !== mapZoom) {
-            this.map.setZoom(mapZoom);
-            setTimeout(() => {
-              if (this.map) {
-                google.maps.event.trigger(this.map, "resize");
-              }
-            }, 100);
-          }
-        }
-      });
-
-      this.map.addListener("dblclick", (e: google.maps.MapMouseEvent) => {
-        e.stop();
-      });
-
-      let resizeTimeout: ReturnType<typeof setTimeout>;
       window.addEventListener("resize", () => {
         if (this.map) {
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(() => {
-            if (this.map) {
-              const mapZoom = this.getZoom();
-              const currentZoom = this.map.getZoom();
-
-              google.maps.event.trigger(this.map, "resize");
-
-              if (currentZoom !== mapZoom) {
-                this.map.setZoom(mapZoom);
-                this.map.setOptions({
-                  minZoom: mapZoom,
-                  maxZoom: mapZoom,
-                });
-
-                setTimeout(() => {
-                  if (this.map) {
-                    google.maps.event.trigger(this.map, "resize");
-                  }
-                }, 150);
-              } else {
-                this.map.setOptions({
-                  minZoom: mapZoom,
-                  maxZoom: mapZoom,
-                });
-              }
-            }
-          }, 250);
+          const mapZoom = this.getZoom();
+          this.map.setZoom(mapZoom);
         }
       });
     } catch (error) {
@@ -140,11 +101,7 @@ export class GoogleMap {
     }
   }
 
-  async addMarker(
-    position: { lat: number; lng: number },
-    title?: string,
-    popupData?: { title: string; content: string }
-  ): Promise<google.maps.marker.AdvancedMarkerElement | null> {
+  async addMarker(position: { lat: number; lng: number }, popupData) {
     if (!this.map) {
       throw new Error("Map not initialized. Call init() first.");
     }
@@ -169,7 +126,6 @@ export class GoogleMap {
       const marker = new AdvancedMarkerElement({
         map: this.map,
         position: position,
-        title: title,
         content: svgMarker,
       });
 
@@ -187,114 +143,54 @@ export class GoogleMap {
     }
   }
 
-  private openPopup(data: { title: string; content: string }): void {
+  private openPopup(data): void {
     const popup = document.getElementById("map-popup");
-    const titleElement = popup?.querySelector(".map-popup__title");
-    const contentElement = popup?.querySelector(".map-popup__details");
+    const popupDetails = popup?.querySelector("[data-js-popup-details]");
 
-    if (popup && titleElement && contentElement) {
-      titleElement.textContent = data.title;
-      contentElement.textContent = data.content;
+    if (popup && popupDetails) {
+      popupDetails.innerHTML = "";
 
-      // Use MicroModal from window or import dynamically
-      if ((window as any).MicroModal) {
-        (window as any).MicroModal.show("map-popup");
-      } else {
-        import("micromodal").then((MicroModal) => {
-          MicroModal.default.show("map-popup");
-        });
-      }
-    }
-  }
-
-  async loadGeoJson(url: string, fillColor: string = "#7FBD00"): Promise<void> {
-    if (!this.dataLayer) {
-      throw new Error("Map not initialized. Call init() first.");
-    }
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const geoJson = await response.json();
-
-      this.dataLayer.addGeoJson(geoJson);
-      this.dataLayer.setStyle({
-        fillColor: fillColor,
-        fillOpacity: 1.0,
-        strokeColor: fillColor,
-        strokeWeight: 0,
-        strokeOpacity: 0,
+      data.forEach(item => {
+        popupDetails.innerHTML += `
+          <div class="popup-details__item">
+            <div class="popup-details__item-heading">
+              <h3>${item.title}</h3>
+                ${item.areas.map(area => `<p>${area}</p>`).join("")}
+            </div>
+            <ul class="popup-details__item-list">
+              ${item.services.map(service => `<li>${service}</li>`).join("")}
+            </ul>
+          </div>
+        `;
       });
-    } catch (error) {
-      console.error("Error loading GeoJSON:", error);
-      throw error;
-    }
-  }
 
-  async loadGeoJsonWithFilter(url: string, countryCodes: string[], fillColor: string = "#7FBD00"): Promise<void> {
-    if (!this.dataLayer) {
-      throw new Error("Map not initialized. Call init() first.");
-    }
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const geoJson = await response.json();
-
-      if (geoJson.type === "FeatureCollection" && Array.isArray(geoJson.features)) {
-        const filteredFeatures = geoJson.features.filter((feature: any) => {
-          const code = feature.properties?.ISO_A2 || feature.properties?.ISO_A3 || feature.properties?.NAME;
-          return countryCodes.some(
-            codeToMatch =>
-              code === codeToMatch || feature.properties?.NAME?.toLowerCase().includes(codeToMatch.toLowerCase())
-          );
-        });
-
-        const filteredGeoJson = {
-          ...geoJson,
-          features: filteredFeatures,
-        };
-
-        this.dataLayer.addGeoJson(filteredGeoJson);
-        this.dataLayer.setStyle({
-          fillColor: fillColor,
-          fillOpacity: 1.0,
-          strokeColor: fillColor,
-          strokeWeight: 0,
-          strokeOpacity: 0,
-        });
-      }
-    } catch (error) {
-      console.error("Error loading filtered GeoJSON:", error);
-      throw error;
-    }
-  }
-
-  async loadGeoJsonFromObject(geoJson: object, fillColor: string = "#7FBD00"): Promise<void> {
-    if (!this.dataLayer) {
-      throw new Error("Map not initialized. Call init() first.");
-    }
-
-    try {
-      this.dataLayer.addGeoJson(geoJson);
-      this.dataLayer.setStyle({
-        fillColor: fillColor,
-        fillOpacity: 1.0,
-        strokeColor: fillColor,
-        strokeWeight: 0,
-        strokeOpacity: 0,
+      MicroModal.show("map-popup", {
+        disableScroll: true,
+        disableFocus: true,
       });
-    } catch (error) {
-      console.error("Error loading GeoJSON from object:", error);
-      throw error;
     }
   }
 
-  getMap(): google.maps.Map | null {
-    return this.map;
+  async loadGeoJson(geoCodes: string[]): Promise<void> {
+    geoCodes.forEach(async geoCode => {
+      if (!this.dataLayer) {
+        throw new Error("Map not initialized. Call init() first.");
+      }
+
+      const url = `https://raw.githubusercontent.com/johan/world.geo.json/master/countries/${geoCode}.geo.json`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const geoJson = await response.json();
+
+        this.dataLayer.addGeoJson(geoJson);
+      } catch (error) {
+        console.error("Error loading GeoJSON:", error);
+        throw error;
+      }
+    });
   }
 }

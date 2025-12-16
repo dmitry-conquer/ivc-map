@@ -30,15 +30,19 @@
   }
   &__inner {
     width: 100%;
-    max-width: rem(700);
+    max-width: max-content;
     max-height: 85vh;
     max-height: 85dvh;
     overflow: auto;
     display: inline-block;
     border-radius: rem(20);
+
+    @include small {
+      max-width: 100%;
+    }
   }
   &__content {
-    padding: rem(24);
+    padding: fluid(24, 40);
     background-color: #fff;
     border-radius: rem(13);
     opacity: 0;
@@ -65,6 +69,72 @@
       width: rem(30);
       height: rem(30);
       color: #626262;
+    }
+  }
+}
+
+.popup-details {
+  &__item {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: fluid(20, 40);
+    align-items: start;
+
+    @include small {
+      grid-template-columns: 1fr;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: fluid(20, 32);
+      padding-bottom: fluid(20, 32);
+      border-bottom: 1px solid #ebf0f2;
+    }
+
+    &-heading {
+      display: flex;
+      flex-direction: column;
+      row-gap: fluid(4, 8);
+      h3 {
+        color: #000;
+        font-size: rem(22);
+        font-weight: 600;
+        line-height: 1.27;
+      }
+      p {
+        color: #000;
+        font-size: rem(16);
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+    }
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: rem(16) rem(24);
+
+      @include x-small {
+        grid-template-columns: 1fr;
+      }
+      li {
+        color: #000;
+        font-size: fluid(20, 26);
+        font-weight: 600;
+        line-height: 1.07;
+        display: flex;
+        align-items: center;
+        column-gap: fluid(10, 19);
+
+        &::before {
+          content: "";
+          background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20fill%3D%22none%22%3E%3Cg%20clip-path%3D%22url(%23a)%22%3E%3Cpath%20d%3D%22M17.883%2017.882s-9.088%201.136-14.004-3.76C-1.018%209.205.118.116.118.116z%22%20fill%3D%22%23026735%22%2F%3E%3Cpath%20d%3D%22M.117.117s9.088-1.136%2014.004%203.76c4.917%204.897%203.761%2014.005%203.761%2014.005z%22%20fill%3D%22%237fbc42%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CclipPath%20id%3D%22a%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%200h18v18H0z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E");
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          flex: 0 0 rem(18);
+          height: rem(18);
+        }
+      }
     }
   }
 }

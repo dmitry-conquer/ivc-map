@@ -17,6 +17,7 @@
     "noEmitOnError": true,
     "alwaysStrict": true,
     "removeComments": true,
+    "noImplicitAny": false,
 
     /* Linting */
     "strict": true,
