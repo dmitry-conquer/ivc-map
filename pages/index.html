@@ -8,10 +8,80 @@
   <body>
     <div id="page" class="site-page">
       <main>
-        <div id="map"></div>
+        <section class="locations">
+          <div class="locations__container">
+            <div class="locations__header">
+              <h2 class="locations__title">Total Global Capacity</h2>
+              <div class="locations__countries">
+                <h3 class="locations__country">United States</h3>
+                <h3 class="locations__country">Canada</h3>
+                <h3 class="locations__country">China</h3>
+                <h3 class="locations__country">Europe</h3>
+              </div>
+              <div class="locations__stats">
+                <h3 class="locations__stat">4 Regions</h3>
+                <h3 class="locations__stat">12 Facilities</h3>
+                <h3 class="locations__stat">Serving 80+ Countries</h3>
+              </div>
+            </div>
+            <div class="locations__map" id="map"></div>
+            <div class="locations__image">
+              <img src="/images/image.png" alt="" />
+            </div>
+          </div>
+        </section>
       </main>
     </div>
     {{>modal}}
+    <script>
+      const mapData = {
+        apiKey: "AIzaSyCYon71vBnNK-0ghe9mXGgAmnp_V6rsqzE",
+        mapId: "dd2ae071ffad46372ed83dfa",
+        coveredAreas: ["USA", "CAN", "GBR", "DEU", "CHN"],
+        markers: [
+          {
+            position: { lat: 40.7128, lng: -74.006 },
+            data: [
+              {
+                title: "IVC WOD",
+                areas: ["Greenville, SC", "United States"],
+                services: ["Tablets", "Packaging", "Softgels", "R&D Center"],
+              },
+              {
+                title: "IVC DDR",
+                areas: ["Greenville, SC", "United States"],
+                services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
+              },
+              {
+                title: "IVC HQ",
+                areas: ["Newport, CA", "United States"],
+                services: ["Tablets", "Packaging"],
+              },
+            ],
+          },
+          {
+            position: { lat: 45.7128, lng: -71.006 },
+            data: [
+              {
+                title: "IVC WOD",
+                areas: ["Greenville, SC", "United States"],
+                services: ["Tablets", "Packaging", "Softgels", "R&D Center"],
+              },
+              {
+                title: "IVC DDR",
+                areas: ["Greenville, SC", "United States"],
+                services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
+              },
+              {
+                title: "IVC HQ",
+                areas: ["Newport, CA", "United States"],
+                services: ["Tablets", "Packaging"],
+              },
+            ],
+          },
+        ],
+      };
+    </script>
     <script type="module" src="/src/scripts/main.ts" defer></script>
   </body>
 </html>

@@ -1,45 +1,12 @@
 @use "helpers" as *;
-
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+html {
+  scrollbar-gutter: stable;
+}
 
 body {
   font-family: "Outfit", sans-serif;
-}
-
-
-#map {
-  width: 100%;
-  max-width: rem(1140);
-  margin: 0 auto;
-  height: rem(680);
-  overflow: hidden;
-  position: relative;
-
-  @include large {
-    max-width: 100%;
-    height: rem(580);
-  }
-
-  @include medium {
-    height: rem(480);
-  }
-
-  @include small {
-    height: rem(400);
-  }
-
-  @include x-small {
-    height: rem(290);
-    max-width: 100%;
-  }
-
-  .gm-style {
-    overflow: hidden !important;
-  }
-
-  > div {
-    overflow: hidden !important;
-  }
 }
 
 .gm-style-cc,
@@ -53,8 +20,6 @@ a[href*="maps"],
   visibility: hidden !important;
   opacity: 0 !important;
 }
-
-
 
 .sr-only {
   position: absolute;

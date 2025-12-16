@@ -1,0 +1,99 @@
+@use "../helpers" as *;
+
+.locations {
+  padding-block: fluid(60, 80);
+  color: #000;
+
+  &__container {
+    max-width: rem(1180);
+    margin-inline: auto;
+    padding-inline: rem(20);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: rem(40);
+  }
+
+  &__title {
+    margin-bottom: rem(24);
+    font-size: fluid(36, 48);
+    font-weight: 500;
+    line-height: 1.08333;
+    letter-spacing: -0.96px;
+  }
+
+  &__countries {
+    margin-bottom: rem(16);
+    display: flex;
+    align-items: center;
+  }
+
+  &__country {
+    font-size: fluid(24, 32);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.64px;
+
+    &:not(:last-child) {
+      display: flex;
+      align-items: center;
+      column-gap: rem(16);
+      margin-right: rem(16);
+      &::after {
+        content: "";
+        width: rem(6);
+        height: rem(6);
+        background-color: #000;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  &__stats {
+  }
+
+  &__stat {
+  }
+
+  &__map {
+    width: 100%;
+    max-width: rem(1080);
+    margin: 0 auto;
+    height: rem(720);
+    overflow: hidden;
+    position: relative;
+
+    @include large {
+      max-width: 100%;
+      height: rem(580);
+    }
+
+    @include medium {
+      height: rem(480);
+    }
+
+    @include small {
+      height: rem(400);
+    }
+
+    @include x-small {
+      height: rem(290);
+      max-width: 100%;
+    }
+
+    .gm-style {
+      overflow: hidden !important;
+    }
+
+    > div {
+      overflow: hidden !important;
+    }
+  }
+
+  &__image {
+  }
+}
