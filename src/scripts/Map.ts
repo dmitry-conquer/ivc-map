@@ -36,15 +36,17 @@ export class GoogleMap {
     let mapZoom: number;
     const width = window.innerWidth;
     if (width < 375) {
-      mapZoom = 0.7;
+      mapZoom = 0.55;
     } else if (width >= 375 && width < 480) {
-      mapZoom = 0.75;
+      mapZoom = 0.55;
     } else if (width >= 480 && width < 576) {
       mapZoom = 0.9;
-    } else if (width >= 576 && width < 992) {
-      mapZoom = 1.7;
+    } else if (width >= 576 && width < 768) {
+      mapZoom = 1.3;
+    } else if (width >= 768 && width < 992) {
+      mapZoom = 1.8;
     } else if (width >= 992 && width < 1140) {
-      mapZoom = 2.1;
+      mapZoom = 1.9;
     } else if (width >= 1140 && width < 1440) {
       mapZoom = 2.1;
     } else {

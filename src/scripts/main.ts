@@ -11,7 +11,7 @@ declare const mapData: {
 document.addEventListener("DOMContentLoaded", async (): Promise<void> => {
   const mapContainer = document.getElementById("map");
   if (mapContainer && mapData) {
-    const map = new GoogleMap("#map", {
+    const map = new GoogleMap(mapContainer, {
       apiKey: mapData.apiKey,
       mapId: mapData.mapId,
       center: { lat: 45, lng: 7 },

@@ -29,11 +29,14 @@
   &__countries {
     margin-bottom: rem(16);
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
+    gap: rem(8) fluid(8, 16);
   }
 
   &__country {
-    font-size: fluid(24, 32);
+    font-size: fluid(18, 32);
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.64px;
@@ -41,8 +44,7 @@
     &:not(:last-child) {
       display: flex;
       align-items: center;
-      column-gap: rem(16);
-      margin-right: rem(16);
+      column-gap: fluid(8, 16);
       &::after {
         content: "";
         width: rem(6);
@@ -54,9 +56,30 @@
   }
 
   &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: rem(8) fluid(8, 16);
   }
 
   &__stat {
+    font-size: fluid(16, 22);
+    font-weight: 600;
+    line-height: 1.27273;
+
+    &:not(:last-child) {
+      display: flex;
+      align-items: center;
+      column-gap: fluid(8, 16);
+      &::after {
+        content: "";
+        width: rem(6);
+        height: rem(6);
+        background-color: #000;
+        border-radius: 50%;
+      }
+    }
   }
 
   &__map {
@@ -67,13 +90,9 @@
     overflow: hidden;
     position: relative;
 
-    @include large {
+    @media (max-width: rem(1140)) {
       max-width: 100%;
-      height: rem(580);
-    }
-
-    @include medium {
-      height: rem(480);
+      height: rem(600);
     }
 
     @include small {
@@ -81,7 +100,7 @@
     }
 
     @include x-small {
-      height: rem(290);
+      height: rem(270);
       max-width: 100%;
     }
 
@@ -95,5 +114,12 @@
   }
 
   &__image {
+    max-width: rem(820);
+    margin-inline: auto;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   }
 }
