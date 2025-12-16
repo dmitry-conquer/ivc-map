@@ -11,30 +11,46 @@ document.addEventListener("DOMContentLoaded", async (): Promise<void> => {
 
   await map.init();
   await map.loadGeoJson(["USA", "CAN", "GBR", "DEU", "CHN"]);
-
-  // Add markers with popup data
-  await map.addMarker({ lat: 40.7128, lng: -74.006 }, [
+  map.addMarkers([
     {
-      title: "IVC WOD",
-      areas: ["Greenville, SC", "United States"],
-      services: ["Tablets", "Packaging", "Softgels", "R&D Center"],
+      position: { lat: 40.7128, lng: -74.006 },
+      data: [
+        {
+          title: "IVC WOD",
+          areas: ["Greenville, SC", "United States"],
+          services: ["Tablets", "Packaging", "Softgels", "R&D Center"],
+        },
+        {
+          title: "IVC DDR",
+          areas: ["Greenville, SC", "United States"],
+          services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
+        },
+        {
+          title: "IVC HQ",
+          areas: ["Newport, CA", "United States"],
+          services: ["Tablets", "Packaging"],
+        },
+      ],
     },
     {
-      title: "IVC DDR",
-      areas: ["Greenville, SC", "United States"],
-      services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
-    },
-    {
-      title: "IVC HQ",
-      areas: ["Newport, CA", "United States"],
-      services: ["Tablets", "Packaging"],
-    },
-  ]);
-  await map.addMarker({ lat: 41.7128, lng: -79.006 }, [
-    {
-      title: "IVC WOD",
-      areas: ["South Derbyshire, Swadlincote", "Winnipeg, Manitoba"],
-      services: ["Canada", "Packaging", "Capsules (VMS/OTC)", "R&D Center"],
+      position: { lat: 45.7128, lng: -71.006 },
+      data: [
+        {
+          title: "IVC WOD",
+          areas: ["Greenville, SC", "United States"],
+          services: ["Tablets", "Packaging", "Softgels", "R&D Center"],
+        },
+        {
+          title: "IVC DDR",
+          areas: ["Greenville, SC", "United States"],
+          services: ["Tablets", "Packaging", "Softgels", "R&D Center", "Gummies", "Capsules"],
+        },
+        {
+          title: "IVC HQ",
+          areas: ["Newport, CA", "United States"],
+          services: ["Tablets", "Packaging"],
+        },
+      ],
     },
   ]);
 });

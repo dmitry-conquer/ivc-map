@@ -67,15 +67,6 @@ export class GoogleMap {
         disableDoubleClickZoom: true,
         gestureHandling: "none",
         draggable: false,
-        restriction: {
-          latLngBounds: {
-            north: 85,
-            south: -85,
-            east: 180,
-            west: -180,
-          },
-          strictBounds: false,
-        },
       });
 
       this.dataLayer = new google.maps.Data();
@@ -99,6 +90,12 @@ export class GoogleMap {
       console.error("Error loading Google Maps:", error);
       throw error;
     }
+  }
+
+  public addMarkers(markers) {
+    markers.forEach(async marker => {
+      await this.addMarker(marker.position, marker.data);
+    });
   }
 
   async addMarker(position: { lat: number; lng: number }, popupData) {
